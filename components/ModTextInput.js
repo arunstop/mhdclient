@@ -18,7 +18,7 @@ export default function ModTextInput({width , ...props }) {
       padding: 12,
       paddingHorizontal: 18,
       fontWeight: "bold",
-      color: "gray",
+      color: "#000",
       maxWidth: 360,
   },
   });

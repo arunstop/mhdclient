@@ -16,6 +16,7 @@ import LoadingScreen from './LoadingScreen';
 import ExpertScreen from './ExpertScreen';
 import ExpertAddScreen from './ExpertAddScreen';
 import SymptomScreen from './SymptomScreen';
+import SymptomAddScreen from './SymptomAddScreen';
 import DisorderScreen from './DisorderScreen';
 import DisorderAddScreen from './DisorderAddScreen';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
@@ -139,6 +140,7 @@ function MainScreen({ navigation }) {
           <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN" }} />
           <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
+          <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

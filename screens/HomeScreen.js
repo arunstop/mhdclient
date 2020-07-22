@@ -24,8 +24,8 @@ function HomeScreen({ navigation }) {
 
   async function execLogout() {
     try {
-      await AsyncStorage.clear();
-      await navigation.navigate('Login');
+      // await AsyncStorage.clear();
+      // await navigation.navigate('Login');
       await alert('Logout success');
     } catch (error) {
       alert('Error occurred\n' + error);
@@ -36,7 +36,7 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Button
         onPress={execLogout}
-        title={email}
+        title="Hello, {email} !"
       />
     </View>
   );

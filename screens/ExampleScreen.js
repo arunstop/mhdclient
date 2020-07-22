@@ -19,7 +19,7 @@ export default function ExampleScreen() {
       {isLoading ? <ActivityIndicator /> : (
         <FlatList
           data={data}
-          keyExtractor={({ id }, index) => id}
+          keyExtractor={({ id }, index) => ID_CATATAN}
           renderItem={({ item }) => (
             <Text>{item.JUDUL_CATATAN}, {item.ISI_CATATAN}</Text>
           )}
