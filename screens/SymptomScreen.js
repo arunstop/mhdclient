@@ -21,7 +21,7 @@ export default function SymptomScreen() {
           data={data}
           keyExtractor={({ ID_GEJALA }, index) => ID_GEJALA}
           renderItem={({ item }) => (
-            <Text key={item.key}>{item.ID_GEJALA},{item.NAMA_GEJALA},{item.PERTANYAAN},{item.KATEGORI},{item.CREATED_AT}</Text>
+            <Text key={item.key}>{item.ID_GEJALA},{item.NAMA_GEJALA},{item.PERTANYAAN},{item.KATEGORI}</Text>
           )}
         />
       )}
