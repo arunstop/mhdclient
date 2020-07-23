@@ -11,14 +11,25 @@ const api = axios.create({
   baseURL: "https://mhd-api.000webhostapp.com/api/"
 })
 
-export default function DisorderAddScreen({ navigation }) {
+export default function DisorderAddScreen({ route, navigation }) {
   const [data, setData] = useState([]);
+  const [id, setId] = useState('');
   const [errMsg, setErrMsg] = useState('');
   const [name, setName] = useState('');
   const [information, setInformation] = useState('');
 
 
-  const initAdd = () => {
+  useEffect(() => {
+
+    setData(route.params);
+    setId(route.params.ID_PENYAKIT);
+    setName(route.params.NAMA_PENYAKIT);
+    setInformation(route.params.INFORMASI);
+    // setName(data.PHOTO_URL);
+
+  }, []);
+
+  const initEdit = () => {
 
     var success = true;
     var em = '';
@@ -32,16 +43,17 @@ export default function DisorderAddScreen({ navigation }) {
     }
 
     if (success) {
-      execAdd();
+      execEdit();
     } else {
       setErrMsg(em);
     }
 
   }
 
-  const execAdd = async () => {
-    await api.get('disorder/add', {
+  const execEdit = async () => {
+    await api.get('disorder/update', {
       params: {
+        id_penyakit: id,
         nama_penyakit: name,
         informasi: information,
       }
@@ -65,7 +77,7 @@ export default function DisorderAddScreen({ navigation }) {
         <ModTextInput width="100%" placeholder="Nama penyakit" onChangeText={(val) => { setName(val) }} value={name} />
         <ModTextInput width="100%" placeholder="Informasi" multiline numberOfLines={4} onChangeText={(val) => { setInformation(val) }} value={information} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initAdd() }} />
+        <ModButton width="100%" text="Add" onPress={() => { initEdit() }} />
       </View>
     </ScrollView>
   );

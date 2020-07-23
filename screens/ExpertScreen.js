@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet,Button } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button } from 'react-native';
 import axios from 'axios';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
-import { set } from 'react-native-reanimated';
+import { DataTable } from 'react-native-paper';
+import { ModAlert } from '../components/ModAlert';
 
 const api = axios.create({
   // baseURL: "http://192.168.1.3/MHD-API/api/",
-  baseURL: "https://mhd-api.000webhostapp.com/api/"
+  baseURL: "http://mhd-api.000webhostapp.com/api/",
 });
 
 export default function ExpertScreen({ navigation }) {
@@ -21,10 +22,10 @@ export default function ExpertScreen({ navigation }) {
     //   // .then(data=> console.log(data))
     //   .catch((error) => console.error(error))
     //   .finally(() => setLoading(false));
-    loadDataExpert();
+    loadData();
   }, []);
 
-  const loadDataExpert = async () => {
+  const loadData = async () => {
     await api.get('psychiatrist/show')
       .then((response) => {
         console.log(response.data.data);
@@ -34,22 +35,96 @@ export default function ExpertScreen({ navigation }) {
       .finally(() => setLoading(false));
   }
 
- 
+  function initDelete(id) {
+    ModAlert("Delete data", "Do you want to delete this data?", (() => execDelete(id)));
+  }
+
+  function initEdit(index) {
+    navigation.navigate('ExpertEdit', data[index]);
+    // alert(data[0].NAMA_AHLI);
+  }
+
+  async function execDelete(id) {
+
+    await api.get(
+      'psychiatrist/delete',
+      {
+        params: {
+          id_ahli: id
+        }
+      },
+    )
+      .then((response) => {
+        console.log(response.data);
+        if (!response.data.ok) {
+          // setMessage(response.data.message);
+        } else {
+
+          setLoading(true);
+          loadData();
+        }
+      })
+      .catch((error) => console.error(error));
+
+  }
+
+  const mapData = data.map((item, index) => {
+    return (
+      <DataTable.Row key={index}>
+        <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_AHLI}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.NO_TELP_AHLI}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.ADDRESS}</DataTable.Cell>
+        <View style={styles.btnAction}><Button title="Edit" color="dodgerblue"  /></View><View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_AHLI) }} /></View>
+        {/* <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell>
+        <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell> */}
+      </DataTable.Row>
+    )
+  });
+
+  function TableTitle({ title, indexCol }) {
+
+    if (indexCol) {
+      return (
+        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>#</Text></DataTable.Title>
+      );
+    } else {
+      return (
+        <DataTable.Title><Text style={styles.tableTitle}>{title}</Text></DataTable.Title>
+      );
+    }
+  }
+
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-     <Button
-        onPress={() => {navigation.navigate('ExpertAdd')}}
+      <Button
+        onPress={() => { navigation.navigate('ExpertAdd') }}
         title="Add"
       />
       {isLoading ? <ActivityIndicator /> : (
-        <FlatList
-          data={data}
-          keyExtractor={({ ID_AHLI }, index) => ID_AHLI}
-          renderItem={({ item }) => (
-            <Text key={item.key}>{item.ID_AHLI},,{item.NAMA_AHLI}, {item.NO_TELP_AHLI}, {item.ADDRESS}, {item.DESCRIPTION}, {item.PHOTO_URL}, {item.CREATED_AT}, </Text>
-          )}
-        />
+        <ScrollView>
+          <View style={{ marginTop: 24 }}>
+            <DataTable  >
+              <DataTable.Header style={styles.tableHeader}>
+                <TableTitle style={styles.tableMargin} indexCol />
+                <TableTitle style={styles.tableMargin} title="Name" />
+                <TableTitle style={styles.tableMargin} title="Phone" />
+                <TableTitle style={styles.tableMargin} title="Address" />
+                <TableTitle style={styles.tableMargin} title="Action" />
+              </DataTable.Header>
+              {mapData}
+              <DataTable.Pagination
+                page={1}
+                numberOfPages={3}
+                onPageChange={page => {
+                  console.log(page);
+                }}
+                label="1-2 of 6"
+              />
+            </DataTable>
+          </View>
+        </ScrollView>
       )}
     </View>
   );
@@ -64,4 +139,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  tableTitle: {
+    color: "black",
+    fontWeight: "bold"
+  },
+  tableMargin: {
+    marginEnd: 12,
+  },
+  tableHeader: {
+    backgroundColor: "lightskyblue", borderBottomWidth: 2, borderBottomColor: "deepskyblue"
+  },
+  btnAction: {
+    marginEnd: 12,
+  }
 });

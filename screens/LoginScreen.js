@@ -7,7 +7,8 @@ import { Card } from 'react-native-elements';
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: "http://192.168.1.3/MHD-API/api/"
+    baseURL: "http://192.168.1.3/MHD-API/api/",
+    //baseURL: "https://mhd-api.000webhostapp.com/api/"
 });
 
 function LoginScreen({ navigation }) {
@@ -90,12 +91,14 @@ function LoginScreen({ navigation }) {
         //     .catch((error) => console.error(error))
         //     .finally(() => setLoading(false));
 
-        await api.post(
+        await api.get(
             'user/auth',
             {
-                email: email,
-                password: password,
-                type_login: 1
+                params: {
+                    email: email,
+                    password: password,
+                    type_login: 1
+                }
             },
         )
             .then((response) => {
@@ -116,7 +119,7 @@ function LoginScreen({ navigation }) {
         // .finally(() => navigation.replace('Main'));
     }
 
-    
+
     return (
 
         // <View style={styles.container}>

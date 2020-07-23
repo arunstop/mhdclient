@@ -7,23 +7,31 @@ import { set } from 'react-native-reanimated';
 
 const api = axios.create({
   // baseURL: "http://192.168.1.3/MHD-API/api/",
-  baseURL: "https://mhd-api.000webhostapp.com/api/",
-  // headers: {
-  //   'X-Requested-With': "XMLHttpRequest",
-  //   'Content-Type': "application/json",
-  // }
+  baseURL: "https://mhd-api.000webhostapp.com/api/"
+})
 
-});
-
-export default function ExpertAddScreen({ navigation }) {
+export default function ExpertEditScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [errMsg, setErrMsg] = useState('');
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
 
-  const initAdd = () => {
+  useEffect(() => {
+
+    setData(route.params);
+    setId(route.params.ID_AHLI);
+    setName(route.params.NAMA_AHLI);
+    setPhone(route.params.NO_TELP_AHLI);
+    setAddress(route.params.ADDRESS);
+    setDescription(route.params.DESCRIPTION);
+    // setName(data.PHOTO_URL);
+
+  }, []);
+
+  const initEdit = () => {
 
     var success = true;
     var em = '';
@@ -45,16 +53,17 @@ export default function ExpertAddScreen({ navigation }) {
     }
 
     if (success) {
-      execAdd();
+      execEdit();
     } else {
       setErrMsg(em);
     }
 
   }
 
-  const execAdd = async () => {
-    await api.get('psychiatrist/add', {
+  const execEdit = async () => {
+    await api.get('psychiatrist/update', {
       params: {
+        id_ahli: id,
         nama_ahli: name,
         no_telp_ahli: phone,
         address: address,
@@ -66,38 +75,11 @@ export default function ExpertAddScreen({ navigation }) {
         console.log(response.data);
         setData(response.data.data);
 
-        setName('');
-        setErrMsg('');
-        setPhone('');
-        setAddress('');
-        setDescription('');
         alert('Success');
         navigation.replace('Main', { screen: 'Expert' });
       })
       .catch(error => console.error(error))
       .finally(() => { });
-
-    // fetch('https://mhd-api.000webhostapp.com/api/psychiatrist/add?nama_ahli=2&no_telp_ahli=22&address=2&description=22&photo_url=m', {
-
-    // fetch('http://192.168.1.3/MHD-API/api/psychiatrist/add', {
-    //         method: 'POST',
-    //         mode: 'no-cors',
-    //         redirect: 'follow',
-    //         credentials: 'same-origin',
-    //         headers: {
-    //             Accept: 'application/json',
-    //             'Content-Type': 'text/plain;charset=UTF-8'
-    //         }, body: JSON.stringify( {nama_ahli: name,
-    //             no_telp_ahli: phone,
-    //             address: address,
-    //             description: description,
-    //             photo_url: 'm',})
-    //     })
-    //         .then((response) => response.json())
-    //         .then((data) => setData(data.data))
-    //         .then(data => console.log(data))
-    //         .catch((error) => console.error(error))
-    //         .finally(() => {});
   }
 
   return (
@@ -109,7 +91,7 @@ export default function ExpertAddScreen({ navigation }) {
         <ModTextInput width="100%" placeholder="Address" multiline numberOfLines={4} onChangeText={(val) => { setAddress(val) }} value={address} />
         <ModTextInput width="100%" placeholder="Description" multiline numberOfLines={4} onChangeText={(val) => { setDescription(val) }} value={description} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initAdd() }} />
+        <ModButton width="100%" text="Add" onPress={() => { initEdit() }} />
       </View>
     </ScrollView>
   );

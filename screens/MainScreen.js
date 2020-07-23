@@ -15,10 +15,13 @@ import ModIcon from '../components/ModIcon';
 import LoadingScreen from './LoadingScreen';
 import ExpertScreen from './ExpertScreen';
 import ExpertAddScreen from './ExpertAddScreen';
+import ExpertEditScreen from './ExpertEditScreen';
 import SymptomScreen from './SymptomScreen';
 import SymptomAddScreen from './SymptomAddScreen';
+import SymptomEditScreen from './SymptomEditScreen';
 import DisorderScreen from './DisorderScreen';
 import DisorderAddScreen from './DisorderAddScreen';
+import DisorderEditScreen from './DisorderEditScreen';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { MobileAlert, DesktopAlert,ModAlert } from '../components/ModAlert';
 
@@ -61,7 +64,7 @@ function DrawerStack({ navigation }) {
 
   function initLogout() {
     ModAlert('Logout',
-    'Do you want to exit the app?', () => execLogout());
+    'Do you want to exit the app?', (() => execLogout()));
     // DesktopAlert('KEKW', () => execLogout());
   }
 
@@ -141,6 +144,9 @@ function MainScreen({ navigation }) {
           <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
           <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
+          <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
+          <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
+          <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

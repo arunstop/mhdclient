@@ -10,12 +10,24 @@ const api = axios.create({
   baseURL: "https://mhd-api.000webhostapp.com/api/"
 })
 
-export default function SymptomAddScreen({ navigation }) {
+export default function SymptomEditScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [errMsg, setErrMsg] = useState('');
+  const [id, setId] = useState('');
   const [name, setName] = useState('');
   const [question, setQuestion] = useState('');
   const [category, setCategory] = useState('');
+
+  useEffect(() => {
+
+    setData(route.params);
+    setId(route.params.ID_GEJALA);
+    setName(route.params.NAMA_GEJALA);
+    setQuestion(route.params.PERTANYAAN);
+    setCategory(route.params.KATEGORI);
+    // setName(data.PHOTO_URL);
+
+  }, []);
 
   const initAdd = () => {
 
@@ -26,11 +38,11 @@ export default function SymptomAddScreen({ navigation }) {
       success = false;
     }
     if (question.trim() === "") {
-      em += ('question cannot be empty\n');
+      em += ('Question cannot be empty\n');
       success = false;
     }
     if (category.trim() === "") {
-      em += ('category cannot be empty\n');
+      em += ('Category cannot be empty\n');
       success = false;
     }
 
@@ -43,8 +55,9 @@ export default function SymptomAddScreen({ navigation }) {
   }
 
   const execAdd = async () => {
-    await api.get('symptom/add', {
+    await api.get('symptom/update', {
       params: {
+        id_gejala: id,
         nama_gejala: name,
         pertanyaan: question,
         kategori: category,
