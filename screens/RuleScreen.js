@@ -6,24 +6,16 @@ import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
 
-
-
-export default function ExpertScreen({ navigation }) {
+export default function RuleScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // fetch('http://192.168.1.3/MHD-API/api/psychiatrist/show')
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.data))
-    //   // .then(data=> console.log(data))
-    //   .catch((error) => console.error(error))
-    //   .finally(() => setLoading(false));
     loadData();
   }, []);
 
   const loadData = async () => {
-    await Api.get('psychiatrist/show')
+    await Api.get('symptom/showBasic')
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -37,17 +29,16 @@ export default function ExpertScreen({ navigation }) {
   }
 
   function initEdit(index) {
-    navigation.navigate('ExpertEdit', data[index]);
-    // alert(data[0].NAMA_AHLI);
+    navigation.navigate('SymptomEdit', data[index]);
   }
 
   async function execDelete(id) {
 
     await Api.get(
-      'psychiatrist/delete',
+      'symptom/delete',
       {
         params: {
-          id_ahli: id
+          id_gejala: id
         }
       },
     )
@@ -67,14 +58,15 @@ export default function ExpertScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row key={index}>
+      <DataTable.Row>
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_AHLI}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.NO_TELP_AHLI}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.ADDRESS}</DataTable.Cell>
-        <View style={styles.btnAction}><Button title="Edit" color="dodgerblue"  /></View><View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_AHLI) }} /></View>
-        {/* <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell>
-        <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell> */}
+        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_GEJALA}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.KATEGORI}</DataTable.Cell>
+        <DataTable.Cell >
+          <View style={styles.btnAction}><Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} /></View>
+          <View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_GEJALA) }} /></View>
+        </DataTable.Cell>
       </DataTable.Row>
     )
   });
@@ -92,35 +84,41 @@ export default function ExpertScreen({ navigation }) {
     }
   }
 
-
   return (
     <View style={{ flex: 1, padding: 24 }}>
       <Button
-        onPress={() => { navigation.navigate('ExpertAdd') }}
+        onPress={() => { navigation.navigate('SymptomAdd') }}
         title="Add"
       />
       {isLoading ? <ActivityIndicator /> : (
-        <ScrollView>
-          <View style={{ marginTop: 24 }}>
-            <DataTable  >
-              <DataTable.Header style={styles.tableHeader}>
-                <TableTitle style={styles.tableMargin} indexCol />
-                <TableTitle style={styles.tableMargin} title="Name" />
-                <TableTitle style={styles.tableMargin} title="Phone" />
-                <TableTitle style={styles.tableMargin} title="Address" />
-                <TableTitle style={styles.tableMargin} title="Action" />
-              </DataTable.Header>
-              {mapData}
-              <DataTable.Pagination
-                page={1}
-                numberOfPages={3}
-                onPageChange={page => {
-                  console.log(page);
-                }}
-                label="1-2 of 6"
-              />
-            </DataTable>
-          </View>
+        <ScrollView style={{ marginTop: 24 }}>
+          <DataTable  >
+            <DataTable.Header style={styles.tableHeader}>
+              <TableTitle style={styles.tableMargin} indexCol />
+              <TableTitle style={styles.tableMargin} title="Name" />
+              <TableTitle style={styles.tableMargin} title="Question" />
+              <TableTitle style={styles.tableMargin} title="Category" />
+              <TableTitle style={styles.tableMargin} title="Action" />
+            </DataTable.Header>
+
+            {mapData}
+
+            <DataTable.Pagination
+              page={1}
+              numberOfPages={3}
+              onPageChange={page => {
+                console.log(page);
+              }}
+              label="1-2 of 6"
+            />
+          </DataTable>
+          {/* <FlatList
+          data={data}
+          keyExtractor={({ ID_GEJALA }, index) => ID_GEJALA}
+          renderItem={({ item }) => (
+            <Text style={{color:"mediumturquoise "}} key={item.key}>{item.ID_GEJALA},{item.NAMA_GEJALA},{item.PERTANYAAN},{item.KATEGORI},{item.CREATED_AT}</Text>
+          )}
+        /> */}
         </ScrollView>
       )}
     </View>

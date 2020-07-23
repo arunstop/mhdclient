@@ -4,12 +4,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image, Alert } fro
 import AsyncStorage from '@react-native-community/async-storage';
 import ModButton from '../components/ModButton';
 import { Card } from 'react-native-elements';
-import axios from 'axios';
-
-const api = axios.create({
-    baseURL: "http://192.168.1.3/MHD-API/api/",
-    //baseURL: "https://mhd-api.000webhostapp.com/api/"
-});
+import Api from '../tools';
 
 function LoginScreen({ navigation }) {
     const [email, setEmail] = React.useState('');
@@ -91,7 +86,7 @@ function LoginScreen({ navigation }) {
         //     .catch((error) => console.error(error))
         //     .finally(() => setLoading(false));
 
-        await api.get(
+        await Api.get(
             'user/auth',
             {
                 params: {

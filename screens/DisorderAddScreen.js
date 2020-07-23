@@ -3,13 +3,10 @@ import { ActivityIndicator, FlatList, Text, View, StyleSheet } from 'react-nativ
 import { ScrollView } from 'react-native-gesture-handler';
 import ModButton from '../components/ModButton';
 import ModTextInput from '../components/ModTextInput';
-import axios from 'axios';
+import Api from '../tools';
 
 
-const api = axios.create({
-  //baseURL: "http://192.168.1.3/MHD-API/api/",
-  baseURL: "https://mhd-api.000webhostapp.com/api/"
-})
+
 
 export default function DisorderAddScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -40,7 +37,7 @@ export default function DisorderAddScreen({ navigation }) {
   }
 
   const execAdd = async () => {
-    await api.get('disorder/add', {
+    await Api.get('disorder/add', {
       params: {
         nama_penyakit: name,
         informasi: information,

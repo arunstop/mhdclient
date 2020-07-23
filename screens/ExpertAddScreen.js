@@ -1,19 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet } from 'react-native';
-import axios from 'axios';
+import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { set } from 'react-native-reanimated';
-
-const api = axios.create({
-  // baseURL: "http://192.168.1.3/MHD-API/api/",
-  baseURL: "https://mhd-api.000webhostapp.com/api/",
-  // headers: {
-  //   'X-Requested-With': "XMLHttpRequest",
-  //   'Content-Type': "application/json",
-  // }
-
-});
 
 export default function ExpertAddScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -53,7 +43,7 @@ export default function ExpertAddScreen({ navigation }) {
   }
 
   const execAdd = async () => {
-    await api.get('psychiatrist/add', {
+    await Api.get('psychiatrist/add', {
       params: {
         nama_ahli: name,
         no_telp_ahli: phone,

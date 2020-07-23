@@ -24,6 +24,8 @@ import DisorderAddScreen from './DisorderAddScreen';
 import DisorderEditScreen from './DisorderEditScreen';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import { MobileAlert, DesktopAlert,ModAlert } from '../components/ModAlert';
+import RuleScreen from './RuleScreen';
+import RuleAddScreen from './RuleAddScreen';
 
 
 const Stack = createStackNavigator();
@@ -46,6 +48,7 @@ function DrawerIcon({ ...props }) {
 
 
 function DrawerStack({ navigation }) {
+  
   navigation.setOptions({
     headerLeft: () => (
       <Image source={require('../assets/icon.png')} style={styles.headerLogo} />
@@ -125,25 +128,36 @@ function DrawerStack({ navigation }) {
         component={DisorderScreen}
         options={{
           title: "Disorder",
+          headerTitle :"KEKW",
           drawerIcon: (props) => <MaterialCommunityIcons name="brain" style={styles.drawerIcon}{...props} />,
           drawerLabel: "Disorder"
+        }}
+      />
+      <Drawer.Screen
+        name="Rule"
+        component={RuleScreen}
+        options={{
+          title: "Rule",
+          drawerIcon: (props) => <MaterialCommunityIcons name="library-books" style={styles.drawerIcon} {...props}/>,
+          drawerLabel: "Rule"
         }}
       />
     </Drawer.Navigator>
   );
 }
 
-function MainScreen({ navigation }) {
+function MainScreen({ route, navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <NavigationContainer>
         <Stack.Navigator mode="modal">
-          <Stack.Screen name="Loading" component={LoadingScreen} options={{ title: "Login", headerShown: false }} />
+          <Stack.Screen name="Loading" component={LoadingScreen} options={{ title: "Loading", headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login", headerShown: false }} />
-          <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN" }} />
+          <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN"}} />
           <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
           <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
+          <Stack.Screen name="RuleAdd" component={RuleAddScreen} options={{ title: "Add Rule" }} />
           <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
           <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
           <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />

@@ -1,15 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button } from 'react-native';
-import axios from 'axios';
+import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
-
-const api = axios.create({
-  //baseURL: "http://192.168.1.3/MHD-API/api/",
-  baseURL: "https://mhd-api.000webhostapp.com/api/"
-});
 
 
 export default function SymptomScreen({ navigation }) {
@@ -21,7 +16,7 @@ export default function SymptomScreen({ navigation }) {
   }, []);
 
   const loadData = async () => {
-    await api.get('symptom/showBasic')
+    await Api.get('symptom/showBasic')
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -40,7 +35,7 @@ export default function SymptomScreen({ navigation }) {
 
   async function execDelete(id) {
 
-    await api.get(
+    await Api.get(
       'symptom/delete',
       {
         params: {
