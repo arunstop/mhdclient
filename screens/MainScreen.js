@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     marginStart: 24,
   },
   drawerIcon: {
-    marginStart: 6
+    marginStart: 6,
   }
 });
 

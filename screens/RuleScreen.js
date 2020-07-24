@@ -15,7 +15,7 @@ export default function RuleScreen({ navigation }) {
   }, []);
 
   const loadData = async () => {
-    await Api.get('symptom/showBasic')
+    await Api.get('symptom/showRule')
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -29,7 +29,7 @@ export default function RuleScreen({ navigation }) {
   }
 
   function initEdit(index) {
-    navigation.navigate('SymptomEdit', data[index]);
+    navigation.navigate('RuleAdd', data[index]);
   }
 
   async function execDelete(id) {
@@ -44,7 +44,6 @@ export default function RuleScreen({ navigation }) {
         if (!response.data.ok) {
           // setMessage(response.data.message);
         } else {
-
           setLoading(true);
           loadData();
         }
@@ -55,64 +54,50 @@ export default function RuleScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_GEJALA}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.KATEGORI}</DataTable.Cell>
-        <DataTable.Cell >
-          <View style={styles.btnAction}>
-            <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
-          </View>
-          <View style={styles.btnAction}>
-            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_GEJALA) }} />
-          </View>
-        </DataTable.Cell>
-      </DataTable.Row>
+      <View style={styles.viewRowParent} key={index}>
+        {mapRule(item.RULE)}
+        <View style={{flexDirection: 'row',flexWrap: 'wrap', width: "100%"}}>
+          <Chip title="THEN" color="limegreen" />
+          <View style={{ justifyContent: 'center', }}>
+            <Text style={{ fontWeight: "bold", borderBottomWidth: 2, borderBottomColor: "#000" }}>{item.NAMA_PENYAKIT.toUpperCase()}</Text>
+          </View></View>
+      </View>
     )
   });
 
-  function TableTitle({ title, indexCol }) {
+  function mapRule(ruleList) {
+    const rule = ruleList.map((data, index) => {
+      return (
+        <View style={styles.viewRow}>
+          {
+            index === 0
+              ? <Chip title="IF" color="goldenrod" />
+              : <Chip title="AND" color="dodgerblue" />
+          }
+          <View style={{ justifyContent: 'center', }}>
+            <Text>{data}</Text>
+          </View>
+        </View>
+      )
+    });
+    return (rule);
+  }
 
-    if (indexCol) {
-      return (
-        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>#</Text></DataTable.Title>
-      );
-    } else {
-      return (
-        <DataTable.Title><Text style={styles.tableTitle}>{title}</Text></DataTable.Title>
-      );
-    }
+  function Chip({ color, title }) {
+    return (
+      <Text style={[styles.chip, { color: color, borderColor: color, }]}>{title}</Text>
+    );
   }
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
       <Button
-        onPress={() => { navigation.navigate('SymptomAdd') }}
+        onPress={() => { navigation.navigate('RuleAdd') }}
         title="Add"
       />
       {isLoading ? <ActivityIndicator /> : (
         <ScrollView style={{ marginTop: 24 }}>
-          <DataTable  >
-            <DataTable.Header style={styles.tableHeader}>
-              <TableTitle style={styles.tableMargin} indexCol />
-              <TableTitle style={styles.tableMargin} title="Name" />
-              <TableTitle style={styles.tableMargin} title="Question" />
-              <TableTitle style={styles.tableMargin} title="Category" />
-              <TableTitle style={styles.tableMargin} title="Action" />
-            </DataTable.Header>
-
-            {mapData}
-
-            <DataTable.Pagination
-              page={1}
-              numberOfPages={3}
-              onPageChange={page => {
-                console.log(page);
-              }}
-              label="1-2 of 6"
-            />
-          </DataTable>
+          {mapData}
           {/* <FlatList
           data={data}
           keyExtractor={({ ID_GEJALA }, index) => ID_GEJALA}
@@ -147,5 +132,24 @@ const styles = StyleSheet.create({
   },
   btnAction: {
     marginEnd: 12,
+  },
+  viewRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  viewRowParent: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingBottom: 12,
+    borderBottomColor: 'silver',
+    borderBottomWidth: 1,
+    margin: 6
+  },
+  chip: {
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 6,
+    margin: 6,
+    fontWeight: "bold",
   }
 });
