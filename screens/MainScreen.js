@@ -22,8 +22,8 @@ import SymptomEditScreen from './SymptomEditScreen';
 import DisorderScreen from './DisorderScreen';
 import DisorderAddScreen from './DisorderAddScreen';
 import DisorderEditScreen from './DisorderEditScreen';
-import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import { MobileAlert, DesktopAlert,ModAlert } from '../components/ModAlert';
+import { MaterialCommunityIcons, FontAwesome5, Fontisto } from '@expo/vector-icons';
+import { MobileAlert, DesktopAlert, ModAlert } from '../components/ModAlert';
 import RuleScreen from './RuleScreen';
 import RuleAddScreen from './RuleAddScreen';
 
@@ -48,7 +48,7 @@ function DrawerIcon({ ...props }) {
 
 
 function DrawerStack({ navigation }) {
-  
+
   navigation.setOptions({
     headerLeft: () => (
       <Image source={require('../assets/icon.png')} style={styles.headerLogo} />
@@ -67,7 +67,7 @@ function DrawerStack({ navigation }) {
 
   function initLogout() {
     ModAlert('Logout',
-    'Do you want to exit the app?', (() => execLogout()));
+      'Do you want to exit the app?', (() => execLogout()));
     // DesktopAlert('KEKW', () => execLogout());
   }
 
@@ -110,7 +110,7 @@ function DrawerStack({ navigation }) {
         component={ExpertScreen}
         options={{
           title: "Expert",
-          drawerIcon: (props) => <MaterialCommunityIcons name="doctor" style={styles.drawerIcon} {...props} />,
+          drawerIcon: (props) => <Fontisto name="doctor" style={styles.drawerIcon} {...props} />,
           drawerLabel: "Expert"
         }}
       />
@@ -128,7 +128,7 @@ function DrawerStack({ navigation }) {
         component={DisorderScreen}
         options={{
           title: "Disorder",
-          headerTitle :"KEKW",
+          headerTitle: "KEKW",
           drawerIcon: (props) => <MaterialCommunityIcons name="brain" style={styles.drawerIcon}{...props} />,
           drawerLabel: "Disorder"
         }}
@@ -138,7 +138,7 @@ function DrawerStack({ navigation }) {
         component={RuleScreen}
         options={{
           title: "Rule",
-          drawerIcon: (props) => <MaterialCommunityIcons name="library-books" style={styles.drawerIcon} {...props}/>,
+          drawerIcon: (props) => <MaterialCommunityIcons name="library-books" style={styles.drawerIcon} {...props} />,
           drawerLabel: "Rule"
         }}
       />
@@ -153,7 +153,7 @@ function MainScreen({ route, navigation }) {
         <Stack.Navigator mode="modal">
           <Stack.Screen name="Loading" component={LoadingScreen} options={{ title: "Loading", headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login", headerShown: false }} />
-          <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN"}} />
+          <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN" }} />
           <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
           <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />

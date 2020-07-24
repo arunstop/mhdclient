@@ -52,14 +52,14 @@ export default function SymptomEditScreen({ route, navigation }) {
   }
 
   const execAdd = async () => {
-    await Api.get('symptom/update', {
-      params: {
-        id_gejala: id,
-        nama_gejala: name,
-        pertanyaan: question,
-        kategori: category,
-      }
-    })
+
+    var body = new FormData();
+    body.set('id_gejala', id);
+    body.set('nama_gejala', name);
+    body.set('pertanyaan', question);
+    body.set('kategori', category);
+
+    await Api.post('symptom/update', body)
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);

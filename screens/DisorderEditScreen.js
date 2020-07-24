@@ -48,13 +48,14 @@ export default function DisorderAddScreen({ route, navigation }) {
   }
 
   const execEdit = async () => {
-    await Api.get('disorder/update', {
-      params: {
-        id_penyakit: id,
-        nama_penyakit: name,
-        informasi: information,
-      }
-    })
+
+    var body = new FormData();
+
+    body.set('id_penyakit', id);
+        body.set('nama_penyakit', name);
+        body.set('informasi', information);
+
+    await Api.post('disorder/update', body)
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);

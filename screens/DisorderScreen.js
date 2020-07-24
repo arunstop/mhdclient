@@ -42,14 +42,10 @@ export default function DisorderScreen({ navigation }) {
 
   async function execDelete(id) {
 
-    await Api.get(
-      'disorder/delete',
-      {
-        params: {
-          id_penyakit: id
-        }
-      },
-    )
+    var body = new FormData();
+    body.set('id_penyakit', id);
+
+    await Api.post('disorder/delete', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -71,8 +67,12 @@ export default function DisorderScreen({ navigation }) {
         <DataTable.Cell style={styles.tableMargin}>{item.NAMA_PENYAKIT}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.INFORMASI}</DataTable.Cell>
         <DataTable.Cell >
-          <View style={styles.btnAction}><Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} /></View>
-          <View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_PENYAKIT) }} /></View>
+          <View style={styles.btnAction}>
+            <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
+          </View>
+          <View style={styles.btnAction}>
+            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_PENYAKIT) }} />
+          </View>
         </DataTable.Cell>
       </DataTable.Row>
     )

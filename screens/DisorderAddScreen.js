@@ -5,9 +5,6 @@ import ModButton from '../components/ModButton';
 import ModTextInput from '../components/ModTextInput';
 import Api from '../tools';
 
-
-
-
 export default function DisorderAddScreen({ navigation }) {
   const [data, setData] = useState([]);
   const [errMsg, setErrMsg] = useState('');
@@ -37,12 +34,13 @@ export default function DisorderAddScreen({ navigation }) {
   }
 
   const execAdd = async () => {
-    await Api.get('disorder/add', {
-      params: {
-        nama_penyakit: name,
-        informasi: information,
-      }
-    })
+
+    var body = new FormData();
+    body.set('nama_penyakit', name);
+    body.set('informasi', information);
+
+
+    await Api.post('disorder/add', body)
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);

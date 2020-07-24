@@ -43,14 +43,10 @@ export default function ExpertScreen({ navigation }) {
 
   async function execDelete(id) {
 
-    await Api.get(
-      'psychiatrist/delete',
-      {
-        params: {
-          id_ahli: id
-        }
-      },
-    )
+    var body = new FormData();
+    body.set('id_ahli', id);
+    await Api.post(
+      'psychiatrist/delete', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -72,9 +68,14 @@ export default function ExpertScreen({ navigation }) {
         <DataTable.Cell style={styles.tableMargin}>{item.NAMA_AHLI}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.NO_TELP_AHLI}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.ADDRESS}</DataTable.Cell>
-        <View style={styles.btnAction}><Button title="Edit" color="dodgerblue"  /></View><View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_AHLI) }} /></View>
-        {/* <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell>
-        <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell> */}
+        <DataTable.Cell>
+          <View style={styles.btnAction}>
+            <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} /></View>
+          <View style={styles.btnAction}>
+            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_AHLI) }} />
+          </View>
+        </DataTable.Cell>
+        {/* <DataTable.Cell onPress={() => { initEdit(index) }}></DataTable.Cell> */}
       </DataTable.Row>
     )
   });

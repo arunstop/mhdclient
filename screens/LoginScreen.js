@@ -86,16 +86,13 @@ function LoginScreen({ navigation }) {
         //     .catch((error) => console.error(error))
         //     .finally(() => setLoading(false));
 
-        await Api.get(
-            'user/auth',
-            {
-                params: {
-                    email: email,
-                    password: password,
-                    type_login: 1
-                }
-            },
-        )
+        var body = new FormData();
+
+        body.set('email', email);
+        body.set('password', password);
+        body.set('type_login', 1);
+
+        await Api.post('user/auth',body)
             .then((response) => {
                 console.log(response.data);
                 if (!response.data.ok) {

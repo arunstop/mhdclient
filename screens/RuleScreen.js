@@ -34,14 +34,11 @@ export default function RuleScreen({ navigation }) {
 
   async function execDelete(id) {
 
-    await Api.get(
-      'symptom/delete',
-      {
-        params: {
-          id_gejala: id
-        }
-      },
-    )
+    var body = new FormData();
+    body.set('id_gejala', id);
+
+    await Api.post(
+      'symptom/delete', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -64,8 +61,12 @@ export default function RuleScreen({ navigation }) {
         <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.KATEGORI}</DataTable.Cell>
         <DataTable.Cell >
-          <View style={styles.btnAction}><Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} /></View>
-          <View style={styles.btnAction}><Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_GEJALA) }} /></View>
+          <View style={styles.btnAction}>
+            <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
+          </View>
+          <View style={styles.btnAction}>
+            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_GEJALA) }} />
+          </View>
         </DataTable.Cell>
       </DataTable.Row>
     )

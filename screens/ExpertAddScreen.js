@@ -4,6 +4,8 @@ import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { set } from 'react-native-reanimated';
+import axios from 'axios';
+
 
 export default function ExpertAddScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -43,15 +45,29 @@ export default function ExpertAddScreen({ navigation }) {
   }
 
   const execAdd = async () => {
-    await Api.get('psychiatrist/add', {
-      params: {
-        nama_ahli: name,
-        no_telp_ahli: phone,
-        address: address,
-        description: description,
-        photo_url: 'm',
-      }
-    })
+
+    var body = new FormData();
+    body.set('nama_ahli', name);
+    body.set('no_telp_ahli', phone);
+    body.set('address', address);
+    body.set('description', description);
+    body.set('photo_url', 'm');
+    // axios({
+    //   method: 'post',
+    //   url: 'https://mhd-api.000webhostapp.com/api/psychiatrist/add',
+    //   data: body,
+    //   headers: { 'Content-Type': 'multipart/form-data' }
+    // })
+    //   .then(function (response) {
+    //     //handle success
+    //     console.log(response);
+    //   })
+    //   .catch(function (response) {
+    //     //handle error
+    //     console.log(response);
+      // });
+
+    await Api.post('psychiatrist/add', body)
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);

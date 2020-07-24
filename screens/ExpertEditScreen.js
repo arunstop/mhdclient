@@ -56,16 +56,16 @@ export default function ExpertEditScreen({ route, navigation }) {
   }
 
   const execEdit = async () => {
-    await Api.get('psychiatrist/update', {
-      params: {
-        id_ahli: id,
-        nama_ahli: name,
-        no_telp_ahli: phone,
-        address: address,
-        description: description,
-        photo_url: 'm',
-      }
-    })
+
+    var body = new FormData();
+    body.set('id_ahli', id);
+        body.set('nama_ahli', name);
+        body.set('no_telp_ahli', phone);
+        body.set('address', address);
+        body.set('description', description);
+        body.set('photo_url', 'm');
+
+    await Api.post('psychiatrist/update', body)
       .then((response) => {
         console.log(response.data);
         setData(response.data.data);
