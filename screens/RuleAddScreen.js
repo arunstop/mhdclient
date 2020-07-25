@@ -35,7 +35,7 @@ export default function RuleAddScreen({ navigation }) {
 
   const mapDataDisorder = dataDisorder.map((item, index) => {
     return (
-      <Picker.Item label={item.NAMA_PENYAKIT} value={item.ID_PENYAKIT} />
+      <Picker.Item label={item.NAMA_PENYAKIT} value={item.ID_PENYAKIT} key={index} />
     )
   });
 
@@ -51,7 +51,7 @@ export default function RuleAddScreen({ navigation }) {
 
   const mapDataSymptom = dataSymptom.map((item, index) => {
     return (
-      <Picker.Item label={item.NAMA_GEJALA} value={item.ID_GEJALA} />
+      <Picker.Item label={item.NAMA_GEJALA} value={item.ID_GEJALA} key={index} />
     )
   });
 
@@ -87,8 +87,12 @@ export default function RuleAddScreen({ navigation }) {
     await Api.post('symptom/addRule', body)
       .then((response) => {
         console.log(response.data);
-        alert('Success');
-        navigation.replace('Main', { screen: 'Disorder' });
+        if (!response.data.ok) {
+          setErrMsg(response.data.message);
+        } else {
+          alert('Success');
+          navigation.replace('Main', { screen: 'Rule' });
+        }
       })
       .catch(error => console.error(error))
       .finally(() => { });
@@ -104,8 +108,8 @@ export default function RuleAddScreen({ navigation }) {
           onValueChange={(itemValue, itemIndex) =>
             setIdDisorder(itemValue)
           }>
-          <Picker.Item label="Select disorder..."/>
-          {(isLoading ? <Picker.Item label="Loading data..."/>: mapDataDisorder)}
+          <Picker.Item label="Select disorder..." />
+          {(isLoading ? <Picker.Item label="Loading data..." /> : mapDataDisorder)}
         </Picker>
         <Picker
           // selectedValue={this.state.language}
@@ -113,8 +117,8 @@ export default function RuleAddScreen({ navigation }) {
           onValueChange={(itemValue, itemIndex) =>
             setIdSymptom(itemValue)
           }>
-          <Picker.Item label="Select symptom..."/>
-          {(isLoading ? <Picker.Item label="Loading data..."/>: mapDataSymptom)}
+          <Picker.Item label="Select symptom..." />
+          {(isLoading ? <Picker.Item label="Loading data..." /> : mapDataSymptom)}
         </Picker>
         {/* <ModTextInput placeholder="" /> */}
         <ModButton width="100%" text="Add" onPress={() => { initAdd() }} />

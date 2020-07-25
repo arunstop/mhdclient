@@ -56,7 +56,7 @@ export default function SymptomScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row>
+      <DataTable.Row key={index}>
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.NAMA_GEJALA}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>

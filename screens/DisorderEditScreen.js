@@ -8,7 +8,7 @@ import Api from '../tools';
 
 
 
-export default function DisorderAddScreen({ route, navigation }) {
+export default function DisorderEditScreen({ route, navigation }) {
   const [data, setData] = useState([]);
   const [id, setId] = useState('');
   const [errMsg, setErrMsg] = useState('');
@@ -52,8 +52,8 @@ export default function DisorderAddScreen({ route, navigation }) {
     var body = new FormData();
 
     body.set('id_penyakit', id);
-        body.set('nama_penyakit', name);
-        body.set('informasi', information);
+    body.set('nama_penyakit', name);
+    body.set('informasi', information);
 
     await Api.post('disorder/update', body)
       .then((response) => {

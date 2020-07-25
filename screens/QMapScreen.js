@@ -6,24 +6,17 @@ import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
 
-;
 
-export default function DisorderScreen({ navigation }) {
+export default function QMapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // fetch('http://192.168.1.3/MHD-API/api/psychiatrist/show')
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.data))
-    //   // .then(data=> console.log(data))
-    //   .catch((error) => console.error(error))
-    //   .finally(() => setLoading(false));
     loadData();
   }, []);
 
   const loadData = async () => {
-    await Api.get('disorder/show', { params: { 'status': 1 } })
+    await Api.get('symptom/showQuestionnaire')
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -37,15 +30,16 @@ export default function DisorderScreen({ navigation }) {
   }
 
   function initEdit(index) {
-    navigation.navigate('DisorderEdit', data[index]);
+    navigation.navigate('SymptomEdit', data[index]);
   }
 
   async function execDelete(id) {
 
     var body = new FormData();
-    body.set('id_penyakit', id);
+    body.set('id_gejala', id);
 
-    await Api.post('disorder/delete', body)
+    await Api.post(
+      'symptom/delete', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -62,27 +56,38 @@ export default function DisorderScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_PENYAKIT}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.INFORMASI}</DataTable.Cell>
-        <DataTable.Cell >
-          <View style={styles.btnAction}>
-            <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
-          </View>
-          <View style={styles.btnAction}>
-            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_PENYAKIT) }} />
+      <DataTable.Row key={index}>
+        {/* <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell> */}
+        <DataTable.Cell style={{ maxWidth: 30 }}>{item.ID_GEJALA_DETAIL}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>
+          <View style={{flexDirection:"row", flexWrap: 'wrap'}}>
+          {mapDisorderList(item.DAFTAR_PENYAKIT)}
           </View>
         </DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>{item.YES}</DataTable.Cell>
+        <DataTable.Cell style={{ maxWidth: 30 }}>{item.NO}</DataTable.Cell>
       </DataTable.Row>
     )
   });
+
+  function mapDisorderList(disorderList) {
+    const disorder = disorderList.map((data, index) => {
+      return (
+        <Text style={styles.chip}>{data}</Text>
+      )
+    });
+
+    return (
+      disorder
+    );
+  }
 
   function TableTitle({ title, indexCol }) {
 
     if (indexCol) {
       return (
-        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>#</Text></DataTable.Title>
+        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>{title === null ? '#' : title}</Text></DataTable.Title>
       );
     } else {
       return (
@@ -93,29 +98,19 @@ export default function DisorderScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      {/* <Picker
-  selectedValue="java"
-  style={{height: 50, width: 100}}
-  // onValueChange={(itemValue, itemIndex) =>
-  //   this.setState({language: itemValue})
-  // }
-  >
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
-</Picker> */}
-
       <Button
-        onPress={() => { navigation.navigate('DisorderAdd') }}
+        onPress={() => { navigation.navigate('SymptomAdd') }}
         title="Add"
       />
       {isLoading ? <ActivityIndicator /> : (
-        <View style={{ marginTop: 24 }}>
+        <ScrollView style={{ marginTop: 24 }}>
           <DataTable  >
             <DataTable.Header style={styles.tableHeader}>
-              <TableTitle style={styles.tableMargin} indexCol />
-              <TableTitle style={styles.tableMargin} title="Name" />
-              <TableTitle style={styles.tableMargin} title="Information" />
-              <TableTitle style={styles.tableMargin} title="Action" />
+              <TableTitle style={styles.tableMargin} indexCol title="ID" />
+              <TableTitle style={styles.tableMargin} title="Question" />
+              <TableTitle style={styles.tableMargin} title="Disorder List" />
+              <TableTitle style={styles.tableMargin} indexCol title="Yes" />
+              <TableTitle style={styles.tableMargin} indexCol title="No" />
             </DataTable.Header>
 
             {mapData}
@@ -131,13 +126,12 @@ export default function DisorderScreen({ navigation }) {
           </DataTable>
           {/* <FlatList
           data={data}
-          keyExtractor={({ ID_PENYAKIT }, index) => ID_PENYAKIT}
+          keyExtractor={({ ID_GEJALA }, index) => ID_GEJALA}
           renderItem={({ item }) => (
-            <Text key={item.key}>{item.ID_PENYAKIT},{item.NAMA_PENYAKIT},{item.INFORMASI},{item.CREATED_AT},</Text>
+            <Text style={{color:"mediumturquoise "}} key={item.key}>{item.ID_GEJALA},{item.NAMA_GEJALA},{item.PERTANYAAN},{item.KATEGORI},{item.CREATED_AT}</Text>
           )}
         /> */}
-        </View>
-
+        </ScrollView>
       )}
     </View>
   );
@@ -164,5 +158,14 @@ const styles = StyleSheet.create({
   },
   btnAction: {
     marginEnd: 12,
+  },
+  chip: {
+    borderColor: "deepskyblue",
+    color: "deepskyblue",
+    borderWidth: 2,
+    borderRadius: 6,
+    padding: 6,
+    margin: 6,
+    fontWeight: "bold",
   }
 });

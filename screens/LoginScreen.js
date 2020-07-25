@@ -20,10 +20,11 @@ function LoginScreen({ navigation }) {
     //     }
     // }).then(resp => { console.log('Submission response', resp); }).catch(err => console.error(err));
 
-    const storeData = async () => {
+    const storeData = async (id_user) => {
         try {
             await AsyncStorage.setItem('email', email);
             await AsyncStorage.setItem('password', password);
+            await AsyncStorage.setItem('id_user', id_user);
             // alert('Data Saved');
             return true;
         }
@@ -98,8 +99,9 @@ function LoginScreen({ navigation }) {
                 if (!response.data.ok) {
                     setMessage(response.data.message);
                 } else {
-                    storeData();
-                    navigation.replace('Main');
+                    // alert(response.data.data[0].ID_USER);
+                    storeData(response.data.data[0].ID_USER)
+                    .then(navigation.replace('Main'));
                 }
             })
             .catch((error) => console.error(error));
@@ -143,7 +145,8 @@ function LoginScreen({ navigation }) {
         // </View>
 
         <View style={styles.container} >
-            <Image style={styles.tinyLogo} source={require('../assets/icon.png')} />
+            <Image style={styles.logo} source={require('../assets/icon.png')} />
+            <Text style={styles.label}>MHD-ADMIN</Text>
             <Text style={styles.message}>{message}</Text>
             <TextInput
                 autoFocus
@@ -193,10 +196,10 @@ const styles = StyleSheet.create({
         padding: 12,
         maxWidth: 360
     },
-    tinyLogo: {
+    logo: {
         alignSelf: 'center',
-        width: 60,
-        height: 60,
+        width: 180,
+        height: 180,
     },
     message: {
         marginTop: 24,
@@ -204,6 +207,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         textAlign: 'center',
         fontWeight: 'bold',
+    },
+    label: {
+        color: "limegreen",
+        alignSelf: 'center',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 24,
     },
     inputText: {
         width: "72%",

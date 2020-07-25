@@ -3,6 +3,7 @@ import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
+import { StyleSheet,Image } from 'react-native';
 
 function HomeScreen({ navigation }) {
   const [email, setEmail] = React.useState('');
@@ -22,24 +23,24 @@ function HomeScreen({ navigation }) {
 
   getData();
 
-  async function execLogout() {
-    try {
-      // await AsyncStorage.clear();
-      // await navigation.navigate('Login');
-      // await alert('Logout success');
-    } catch (error) {
-      alert('Error occurred\n' + error);
-    }
-  }
   return (
 
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Image style={styles.logo} source={require('../assets/icon.png')} />
       <Button
-        onPress={execLogout}
-        title={"Hello, "+email+"!"}
+        // onPress={execLogout}
+        title={"Hello, " + email + "!"}
       />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  logo: {
+    alignSelf: 'center',
+    width: 180,
+    height: 180,
+  },
+})
 
 export default HomeScreen;

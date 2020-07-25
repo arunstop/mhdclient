@@ -6,7 +6,7 @@ import { Image } from 'react-native-elements';
 export default function ModLogo({ size, ...props }) {
     return (
         <Image
-            source={require('../assets/logo.png')}
+            source={require('../assets/icon.png')}
             style={{ width: size, height: size }}
             {...props}
         />

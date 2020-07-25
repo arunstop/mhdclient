@@ -68,7 +68,7 @@ export default function RuleScreen({ navigation }) {
   function mapRule(ruleList) {
     const rule = ruleList.map((data, index) => {
       return (
-        <View style={styles.viewRow}>
+        <View style={styles.viewRow} key={index}>
           {
             index === 0
               ? <Chip title="IF" color="goldenrod" />

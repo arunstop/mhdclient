@@ -8,22 +8,16 @@ import { ModAlert } from '../components/ModAlert';
 
 ;
 
-export default function DisorderScreen({ navigation }) {
+export default function ArticleScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    // fetch('http://192.168.1.3/MHD-API/api/psychiatrist/show')
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.data))
-    //   // .then(data=> console.log(data))
-    //   .catch((error) => console.error(error))
-    //   .finally(() => setLoading(false));
     loadData();
   }, []);
 
   const loadData = async () => {
-    await Api.get('disorder/show', { params: { 'status': 1 } })
+    await Api.get('article/show')
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
@@ -37,15 +31,16 @@ export default function DisorderScreen({ navigation }) {
   }
 
   function initEdit(index) {
-    navigation.navigate('DisorderEdit', data[index]);
+    // alert(data[index].JUDUL);
+    navigation.navigate('ArticleEdit', data[index]);
   }
 
   async function execDelete(id) {
 
     var body = new FormData();
-    body.set('id_penyakit', id);
+    body.set('id_artikel', id);
 
-    await Api.post('disorder/delete', body)
+    await Api.post('article/delete', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -64,14 +59,14 @@ export default function DisorderScreen({ navigation }) {
     return (
       <DataTable.Row>
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.NAMA_PENYAKIT}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.INFORMASI}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.JUDUL}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.ISI}</DataTable.Cell>
         <DataTable.Cell >
           <View style={styles.btnAction}>
             <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
           </View>
           <View style={styles.btnAction}>
-            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_PENYAKIT) }} />
+            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_ARTIKEL) }} />
           </View>
         </DataTable.Cell>
       </DataTable.Row>
@@ -93,19 +88,8 @@ export default function DisorderScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      {/* <Picker
-  selectedValue="java"
-  style={{height: 50, width: 100}}
-  // onValueChange={(itemValue, itemIndex) =>
-  //   this.setState({language: itemValue})
-  // }
-  >
-  <Picker.Item label="Java" value="java" />
-  <Picker.Item label="JavaScript" value="js" />
-</Picker> */}
-
       <Button
-        onPress={() => { navigation.navigate('DisorderAdd') }}
+        onPress={() => { navigation.navigate('ArticleAdd') }}
         title="Add"
       />
       {isLoading ? <ActivityIndicator /> : (
@@ -113,8 +97,8 @@ export default function DisorderScreen({ navigation }) {
           <DataTable  >
             <DataTable.Header style={styles.tableHeader}>
               <TableTitle style={styles.tableMargin} indexCol />
-              <TableTitle style={styles.tableMargin} title="Name" />
-              <TableTitle style={styles.tableMargin} title="Information" />
+              <TableTitle style={styles.tableMargin} title="Title" />
+              <TableTitle style={styles.tableMargin} title="Content" />
               <TableTitle style={styles.tableMargin} title="Action" />
             </DataTable.Header>
 
@@ -129,13 +113,6 @@ export default function DisorderScreen({ navigation }) {
               label="1-2 of 6"
             />
           </DataTable>
-          {/* <FlatList
-          data={data}
-          keyExtractor={({ ID_PENYAKIT }, index) => ID_PENYAKIT}
-          renderItem={({ item }) => (
-            <Text key={item.key}>{item.ID_PENYAKIT},{item.NAMA_PENYAKIT},{item.INFORMASI},{item.CREATED_AT},</Text>
-          )}
-        /> */}
         </View>
 
       )}

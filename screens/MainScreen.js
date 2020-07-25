@@ -26,6 +26,10 @@ import { MaterialCommunityIcons, FontAwesome5, Fontisto } from '@expo/vector-ico
 import { MobileAlert, DesktopAlert, ModAlert } from '../components/ModAlert';
 import RuleScreen from './RuleScreen';
 import RuleAddScreen from './RuleAddScreen';
+import QMapScreen from './QMapScreen';
+import ArticleScreen from './ArticleScreen';
+import ArticleAddScreen from './ArticleAddScreen';
+import ArticleEditScreen from './ArticleEditScreen';
 
 
 const Stack = createStackNavigator();
@@ -142,6 +146,24 @@ function DrawerStack({ navigation }) {
           drawerLabel: "Rule"
         }}
       />
+      <Drawer.Screen
+        name="Map"
+        component={QMapScreen}
+        options={{
+          title: "Map Questionnaire",
+          drawerIcon: (props) => <MaterialCommunityIcons name="sitemap" style={styles.drawerIcon} {...props} />,
+          drawerLabel: "Map Questionnaire"
+        }}
+      />
+      <Drawer.Screen
+        name="Article"
+        component={ArticleScreen}
+        options={{
+          title: "Article",
+          drawerIcon: (props) => <FontAwesome5 name="newspaper" style={styles.drawerIcon} {...props} />,
+          drawerLabel: "Article"
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -158,9 +180,12 @@ function MainScreen({ route, navigation }) {
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
           <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
           <Stack.Screen name="RuleAdd" component={RuleAddScreen} options={{ title: "Add Rule" }} />
+          <Stack.Screen name="MapAdd" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
+          <Stack.Screen name="ArticleAdd" component={ArticleAddScreen} options={{ title: "Add Article" }} />
           <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
           <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
           <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
+          <Stack.Screen name="ArticleEdit" component={ArticleEditScreen} options={{ title: "Edit Article" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
