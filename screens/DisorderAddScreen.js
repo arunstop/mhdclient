@@ -66,8 +66,6 @@ export default function DisorderAddScreen({ navigation }) {
   );
 };
 
-
-
 const styles = StyleSheet.create({
   message: {
     maxWidth: 360,

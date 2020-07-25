@@ -115,36 +115,7 @@ function LoginScreen({ navigation }) {
 
 
     return (
-
-        // <View style={styles.container}>
-        //     <Card>
-        //     <Image style={styles.tinyLogo} source={require('../assets/icon.png')} />
-        //         <Text style={styles.message}>{message}</Text>
-        //         <TextInput
-        //             autoFocus
-        //             style={styles.inputText}
-        //             placeholder="Email"
-        //             // selectionColor="#32cd32"
-        //             onChangeText={(input) => { setEmail(input) }}
-        //             onSubmitEditing={initLogin}
-        //             keyboardType="email-address"
-        //         />
-        //         <TextInput
-        //             style={styles.inputText}
-        //             placeholder="Password"
-        //             // selectionColor="#32cd32"
-        //             onSubmitEditing={initLogin}
-        //             onChangeText={(input) => { setPassword(input) }}
-        //             secureTextEntry
-        //         />
-        //         <ModButton
-        //             text="Login"
-        //             onPress={initLogin}>
-        //         </ModButton>
-        //     </Card>
-        // </View>
-
-        <View style={styles.container} >
+<View style={styles.container} >
             <Image style={styles.logo} source={require('../assets/icon.png')} />
             <Text style={styles.label}>MHD-ADMIN</Text>
             <Text style={styles.message}>{message}</Text>

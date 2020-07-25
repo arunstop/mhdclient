@@ -5,6 +5,7 @@ import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 
@@ -12,15 +13,11 @@ export default function ExpertScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    // fetch('http://192.168.1.3/MHD-API/api/psychiatrist/show')
-    //   .then((response) => response.json())
-    //   .then((data) => setData(data.data))
-    //   // .then(data=> console.log(data))
-    //   .catch((error) => console.error(error))
-    //   .finally(() => setLoading(false));
-    loadData();
-  }, []);
+  useFocusEffect(//refresh when focused
+    React.useCallback(() => {
+      loadData();
+    }, [])
+  );
 
   const loadData = async () => {
     await Api.get('psychiatrist/show')

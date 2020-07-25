@@ -99,7 +99,7 @@ export default function ArticleEditScreen({ route, navigation }) {
         <TextInput style={styles.inputText} placeholder="Title" onChangeText={(val) => { setTitle(val) }} value={title} />
         <TextInput style={[styles.inputText, { height: 600 }]} placeholder="Content" multiline onChangeText={(val) => { setContent(val) }} value={content} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initEdit() }} />
+        <ModButton width="100%" text="Confirm Edit" onPress={() => { initEdit() }} />
       </View>
     </ScrollView>
   );

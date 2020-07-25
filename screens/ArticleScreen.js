@@ -5,18 +5,20 @@ import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
+import { useFocusEffect } from '@react-navigation/native';
 
-;
 
 export default function ArticleScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(//refresh when focused
+    React.useCallback(() => {
+      loadData();
+    }, [])
+  );
 
-  const loadData = async () => {
+  var loadData = async () => {
     await Api.get('article/show')
       .then((response) => {
         console.log(response.data.data);
@@ -57,7 +59,7 @@ export default function ArticleScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row>
+      <DataTable.Row key={index}>
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.JUDUL}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.ISI}</DataTable.Cell>

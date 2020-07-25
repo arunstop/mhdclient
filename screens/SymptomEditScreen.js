@@ -83,7 +83,7 @@ export default function SymptomEditScreen({ route, navigation }) {
         <ModTextInput width="100%" placeholder="Pertanyaan " multiline numberOfLines={4} onChangeText={(val) => { setQuestion(val) }} value={question} />
         <ModTextInput width="100%" placeholder="Kategori" onChangeText={(val) => { setCategory(val) }} value={category} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initAdd() }} />
+        <ModButton width="100%" text="Confirm Edit" onPress={() => { initAdd() }} />
       </View>
     </ScrollView>
   );

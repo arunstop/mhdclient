@@ -5,15 +5,18 @@ import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export default function QMapScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(//refresh when focused
+    React.useCallback(() => {
+      loadData();
+    }, [])
+  );
 
   const loadData = async () => {
     await Api.get('symptom/showQuestionnaire')
@@ -61,8 +64,8 @@ export default function QMapScreen({ navigation }) {
         <DataTable.Cell style={{ maxWidth: 30 }}>{item.ID_GEJALA_DETAIL}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.PERTANYAAN}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>
-          <View style={{flexDirection:"row", flexWrap: 'wrap'}}>
-          {mapDisorderList(item.DAFTAR_PENYAKIT)}
+          <View style={{ flexDirection: "row", flexWrap: 'wrap' }}>
+            {mapDisorderList(item.DAFTAR_PENYAKIT)}
           </View>
         </DataTable.Cell>
         <DataTable.Cell style={{ maxWidth: 30 }}>{item.YES}</DataTable.Cell>
@@ -74,7 +77,9 @@ export default function QMapScreen({ navigation }) {
   function mapDisorderList(disorderList) {
     const disorder = disorderList.map((data, index) => {
       return (
-        <Text style={styles.chip}>{data}</Text>
+        <Text style={styles.chip} key={index}>
+          {data}
+        </Text>
       )
     });
 

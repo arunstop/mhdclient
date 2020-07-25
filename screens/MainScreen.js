@@ -105,7 +105,7 @@ function DrawerStack({ navigation }) {
         component={HomeScreen}
         options={{
           title: "Home",
-          drawerIcon: (props) => <DrawerIcon name='home' style={styles.drawerIcon} {...props} />,
+          drawerIcon: (props) => <FontAwesome5 name='home' style={styles.drawerIcon} {...props} />,
           drawerLabel: "Home"
         }}
       />
@@ -123,7 +123,7 @@ function DrawerStack({ navigation }) {
         component={SymptomScreen}
         options={{
           title: "Symptom",
-          drawerIcon: (props) => <MaterialCommunityIcons name="account-search" style={styles.drawerIcon}{...props} />,
+          drawerIcon: (props) => <MaterialCommunityIcons name="account-search" style={styles.drawerIcon} {...props} />,
           drawerLabel: "Symptom"
         }}
       />
@@ -133,7 +133,7 @@ function DrawerStack({ navigation }) {
         options={{
           title: "Disorder",
           headerTitle: "KEKW",
-          drawerIcon: (props) => <MaterialCommunityIcons name="brain" style={styles.drawerIcon}{...props} />,
+          drawerIcon: (props) => <MaterialCommunityIcons name="brain" style={styles.drawerIcon} {...props} />,
           drawerLabel: "Disorder"
         }}
       />

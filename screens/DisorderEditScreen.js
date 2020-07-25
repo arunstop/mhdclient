@@ -75,7 +75,7 @@ export default function DisorderEditScreen({ route, navigation }) {
         <ModTextInput width="100%" placeholder="Nama penyakit" onChangeText={(val) => { setName(val) }} value={name} />
         <ModTextInput width="100%" placeholder="Informasi" multiline numberOfLines={4} onChangeText={(val) => { setInformation(val) }} value={information} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initEdit() }} />
+        <ModButton width="100%" text="Confirm Edit" onPress={() => { initEdit() }} />
       </View>
     </ScrollView>
   );

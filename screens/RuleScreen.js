@@ -5,14 +5,18 @@ import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
+import { useFocusEffect } from '@react-navigation/native';
+
 
 export default function RuleScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  useFocusEffect(//refresh when focused
+    React.useCallback(() => {
+      loadData();
+    }, [])
+  );
 
   const loadData = async () => {
     await Api.get('symptom/showRule')

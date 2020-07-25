@@ -86,7 +86,7 @@ export default function ExpertEditScreen({ route, navigation }) {
         <ModTextInput width="100%" placeholder="Address" multiline numberOfLines={4} onChangeText={(val) => { setAddress(val) }} value={address} />
         <ModTextInput width="100%" placeholder="Description" multiline numberOfLines={4} onChangeText={(val) => { setDescription(val) }} value={description} />
         {/* <ModTextInput placeholder="" /> */}
-        <ModButton width="100%" text="Add" onPress={() => { initEdit() }} />
+        <ModButton width="100%" text="Confirm Edit" onPress={() => { initEdit() }} />
       </View>
     </ScrollView>
   );
