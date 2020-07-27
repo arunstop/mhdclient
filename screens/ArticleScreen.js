@@ -63,6 +63,7 @@ export default function ArticleScreen({ navigation }) {
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.JUDUL}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.ISI}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>{item.IMG_URL}</DataTable.Cell>
         <DataTable.Cell >
           <View style={styles.btnAction}>
             <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
