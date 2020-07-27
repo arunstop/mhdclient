@@ -211,8 +211,8 @@ const styles = StyleSheet.create({
   },
   imgPickerContainer: { width: 720, height: 480, justifyContent: 'center' },
   btnImgPicker: {
-    borderColor: 'dodgerblue',
-    borderWidth: 6,
+    backgroundColor: 'springgreen',
+    // borderWidth: 6,
     padding: 12,
     borderRadius: 12,
     position: "absolute",
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
   },
   textBold: {
     fontSize: 18,
-    color: 'dodgerblue',
+    color: 'white',
     fontWeight: "bold"
   },
 });

@@ -56,6 +56,10 @@ export default function ArticleAddScreen({ navigation }) {
     var success = true;
     var em = '';
 
+    if (selectedImage == null) {
+      em += ('Please add a thumbnail\n');
+      success = false;
+    }
     if (title.trim() === "") {
       em += ('Title cannot be empty\n');
       success = false;
@@ -131,8 +135,7 @@ export default function ArticleAddScreen({ navigation }) {
             ?
             <Image
               resizeMode="cover"
-              style={styles.cover}
-              source={{ uri: "https://i.imgur.com/TkIrScD.png" }}
+              style={styles.cover,styles.emptyCover}
             />
             :
             <Image
@@ -186,14 +189,22 @@ const styles = StyleSheet.create({
     color: "#000",
     maxWidth: 720,
   },
+  emptyCover: {
+    // backgroundColor: "skyblue ",
+    borderColor: "lightsteelblue",
+    borderRadius: 12,
+    borderWidth: 6,
+    width: "100%",
+    height: "100%"
+  },
   cover: {
     flex: 1,
     borderRadius: 12
   },
   imgPickerContainer: { width: 720, height: 480, justifyContent: 'center' },
   btnImgPicker: {
-    borderColor: 'dodgerblue',
-    borderWidth: 6,
+    backgroundColor: 'springgreen',
+    // borderWidth: 6,
     padding: 12,
     borderRadius: 12,
     position: "absolute",
@@ -201,7 +212,7 @@ const styles = StyleSheet.create({
   },
   textBold: {
     fontSize: 18,
-    color: 'dodgerblue',
+    color: 'white',
     fontWeight: "bold"
   },
 });
