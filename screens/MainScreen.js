@@ -30,6 +30,10 @@ import QMapScreen from './QMapScreen';
 import ArticleScreen from './ArticleScreen';
 import ArticleAddScreen from './ArticleAddScreen';
 import ArticleEditScreen from './ArticleEditScreen';
+import VideoScreen from './VideoScreen';
+import VideoAddScreen from './VideoAddScreen';
+import VideoFetchScreen from './VideoFetchScreen';
+
 
 
 const Stack = createStackNavigator();
@@ -164,6 +168,15 @@ function DrawerStack({ navigation }) {
           drawerLabel: "Article"
         }}
       />
+      <Drawer.Screen
+        name="Video"
+        component={VideoScreen}
+        options={{
+          title: "Featured Video",
+          drawerIcon: (props) => <FontAwesome5 name="youtube" style={styles.drawerIcon} {...props} />,
+          drawerLabel: "Video"
+        }}
+      />
     </Drawer.Navigator>
   );
 }
@@ -176,16 +189,18 @@ function MainScreen({ route, navigation }) {
           <Stack.Screen name="Loading" component={LoadingScreen} options={{ title: "Loading", headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login", headerShown: false }} />
           <Stack.Screen name="Main" component={DrawerStack} options={{ title: "MHD ADMIN" }} />
-          <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
-          <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
-          <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
-          <Stack.Screen name="RuleAdd" component={RuleAddScreen} options={{ title: "Add Rule" }} />
-          <Stack.Screen name="MapAdd" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
           <Stack.Screen name="ArticleAdd" component={ArticleAddScreen} options={{ title: "Add Article" }} />
-          <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
-          <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
-          <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
           <Stack.Screen name="ArticleEdit" component={ArticleEditScreen} options={{ title: "Edit Article" }} />
+          <Stack.Screen name="DisorderAdd" component={DisorderAddScreen} options={{ title: "Add Disorder" }} />
+          <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
+          <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
+          <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
+          <Stack.Screen name="MapAdd" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
+          <Stack.Screen name="RuleAdd" component={RuleAddScreen} options={{ title: "Add Rule" }} />
+          <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
+          <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
+          <Stack.Screen name="VideoAdd" component={VideoAddScreen} options={{ title: "Add Video" }} />
+          <Stack.Screen name="VideoFetch" component={VideoFetchScreen} options={{ title: "Fetch Video" }} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaView>

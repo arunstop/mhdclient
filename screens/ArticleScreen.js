@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button,Image,TouchableOpacity } from 'react-native';
 import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
 import { ModAlert } from '../components/ModAlert';
-import { useFocusEffect } from '@react-navigation/native';
+import { Link, useFocusEffect } from '@react-navigation/native';
+import { MaterialCommunityIcons, FontAwesome5, Fontisto } from '@expo/vector-icons';
 
 
 export default function ArticleScreen({ navigation }) {
@@ -63,7 +64,11 @@ export default function ArticleScreen({ navigation }) {
         <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.JUDUL}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.ISI}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.IMG_URL}</DataTable.Cell>
+        <DataTable.Cell style={styles.tableMargin}>
+        <FontAwesome5 name="eye" size={12} color="blue" />
+        <Link style={styles.link} target="_blank" to={item.IMG_URL}>
+            Thumbnail
+          </Link></DataTable.Cell>
         <DataTable.Cell >
           <View style={styles.btnAction}>
             <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
@@ -91,10 +96,13 @@ export default function ArticleScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      <Button
-        onPress={() => { navigation.navigate('ArticleAdd') }}
-        title="Add"
-      />
+      <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+        <TouchableOpacity
+          style={styles.btnAdd}
+          onPress={() => { navigation.navigate('ArticleAdd') }}>
+          <Text style={styles.txtAdd}>Add Data</Text>
+        </TouchableOpacity>
+      </View>
       {isLoading ? <ActivityIndicator /> : (
         <View style={{ marginTop: 24 }}>
           <DataTable  >
@@ -102,6 +110,7 @@ export default function ArticleScreen({ navigation }) {
               <TableTitle style={styles.tableMargin} indexCol />
               <TableTitle style={styles.tableMargin} title="Title" />
               <TableTitle style={styles.tableMargin} title="Content" />
+              <TableTitle style={styles.tableMargin} title="Thumbnail" />
               <TableTitle style={styles.tableMargin} title="Action" />
             </DataTable.Header>
 
@@ -132,6 +141,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
   },
+  btnAdd: {
+    margin: 12,
+    padding: 12,
+    backgroundColor: "dodgerblue",
+    borderRadius: 6,
+  },
+  txtAdd: {
+    color: "white",
+    fontWeight: "bold",
+  },
   tableTitle: {
     color: "black",
     fontWeight: "bold"
@@ -144,5 +163,11 @@ const styles = StyleSheet.create({
   },
   btnAction: {
     marginEnd: 12,
-  }
+  },
+  link: {
+    marginStart:6,
+    color: "blue",
+    borderBottomColor: "blue",
+    borderBottomWidth: 1
+  },
 });

@@ -9,7 +9,7 @@ import Api from '../tools';
 function LoginScreen({ navigation }) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
-    const [message, setMessage] = React.useState('');
+    const [errMsg, setErrMsg] = React.useState('');
     const [isLoading, setLoading] = React.useState(true);
     // const url = 'http://192.168.1.3/MHD-API/api/user/auth'; 
     // const loginS = axios({
@@ -66,7 +66,7 @@ function LoginScreen({ navigation }) {
         if (success) {
             execLogin();
         } else {
-            setMessage(errMsg);
+            setErrMsg(errMsg);
         }
     }
 
@@ -93,15 +93,15 @@ function LoginScreen({ navigation }) {
         body.set('password', password);
         body.set('type_login', 1);
 
-        await Api.post('user/auth',body)
+        await Api.post('user/auth', body)
             .then((response) => {
                 console.log(response.data);
                 if (!response.data.ok) {
-                    setMessage(response.data.message);
+                    setErrMsg(response.data.message);
                 } else {
                     // alert(response.data.data[0].ID_USER);
                     storeData(response.data.data[0].ID_USER)
-                    .then(navigation.replace('Main'));
+                        .then(navigation.replace('Main'));
                 }
             })
             .catch((error) => console.error(error));
@@ -115,10 +115,10 @@ function LoginScreen({ navigation }) {
 
 
     return (
-<View style={styles.container} >
+        <View style={styles.container} >
             <Image style={styles.logo} source={require('../assets/icon.png')} />
             <Text style={styles.label}>MHD-ADMIN</Text>
-            <Text style={styles.message}>{message}</Text>
+            <Text style={styles.message}>{errMsg}</Text>
             <TextInput
                 autoFocus
                 style={styles.inputText}

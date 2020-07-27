@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button,TouchableOpacity } from 'react-native';
 import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
@@ -95,10 +95,13 @@ export default function RuleScreen({ navigation }) {
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
-      <Button
-        onPress={() => { navigation.navigate('RuleAdd') }}
-        title="Add"
-      />
+      <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+        <TouchableOpacity
+          style={styles.btnAdd}
+          onPress={() => { navigation.navigate('RuleAdd') }}>
+          <Text style={styles.txtAdd}>Add Data</Text>
+        </TouchableOpacity>
+      </View>
       {isLoading ? <ActivityIndicator /> : (
         <ScrollView style={{ marginTop: 24 }}>
           {mapData}
@@ -123,6 +126,16 @@ const styles = StyleSheet.create({
     // alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
+  },
+  btnAdd: {
+    margin: 12,
+    padding: 12,
+    backgroundColor: "dodgerblue",
+    borderRadius: 6,
+  },
+  txtAdd: {
+    color: "white",
+    fontWeight: "bold",
   },
   tableTitle: {
     color: "black",
