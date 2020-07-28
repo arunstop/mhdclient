@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 export const Api = axios.create({
-  baseURL: "http://192.168.1.3/MHD-API/api/",
-  // baseURL: "https://mhd-api.000webhostapp.com/api/",
+  // baseURL: "http://192.168.1.3/MHD-API/api/",
+  baseURL: "https://mhd-api.000webhostapp.com/api/",
   headers: {
     //   'X-Requested-With': "XMLHttpRequest",
     'Content-Type': "multipart/form-data",
@@ -21,11 +21,13 @@ export const ApiImgur = axios.create({
 
 });
 
-export const ApiKeyYT = "AIzaSyDQj3SuEJ-GPvJkcXK_reIB5fn3hmH0-tw";
+// export const ApiKeyYT = "AIzaSyD7ubYW6XJgv3rqZOmb1jsRfMBySZ1DB2o";
+// export const ApiKeyYT = "AIzaSyDQj3SuEJ-GPvJkcXK_reIB5fn3hmH0-tw";
+export const ApiKeyYT = "AIzaSyBBhxdkoVRZvQflpoWVLn0uSxgnI6b2a3Q";
 // https://www.googleapis.com/youtube/v3/videos?part=snippet&id=cb3-Cm3Al3c&key=AIzaSyDQj3SuEJ-GPvJkcXK_reIB5fn3hmH0-tw
 export const ApiYoutube = axios.create({
-  baseURL: "http://192.168.1.3/ytdummy/",
-  // baseURL: "https://www.googleapis.com/youtube/v3/",
+  // baseURL: "http://192.168.1.3/ytdummy/",
+  baseURL: "https://www.googleapis.com/youtube/v3/",
   headers: {
     'Content-Type': "multipart/form-data",
   }

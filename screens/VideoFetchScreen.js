@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button, TouchableOpacity, TextInput } from 'react-native';
-import { Api, ApiYoutube, ApiKeyYT } from '../tools';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button, TouchableOpacity, TextInput, Image } from 'react-native';
+import { Api, ApiYoutube, ApiYoutube1, ApiKeyYT } from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
 import { DataTable } from 'react-native-paper';
@@ -64,7 +64,7 @@ export default function VideoFetchScreen({ navigation }) {
 
   const loadData = async () => {
     setFetched(true);
-    await ApiYoutube.get('search.json', {
+    await ApiYoutube.get('search', {
       params: {
         key: ApiKeyYT,
         safeSearch: 'strict',
@@ -129,37 +129,26 @@ export default function VideoFetchScreen({ navigation }) {
       url: vidUrl,
     })
     return (
-      <DataTable.Row key={index}>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.snippet.title}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.snippet.channelTitle}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>
-          <FontAwesome5 name="play" size={12} color="blue" />
-          <Link style={styles.link} target="_blank" to={vidUrl}>
-            Open on Youtube
-          </Link>
-        </DataTable.Cell>
-        <DataTable.Cell >
-          <View style={styles.btnAction}>
-            <Button title="Delete" color="tomato" onPress={() => { initDelete(index) }} />
-          </View>
-        </DataTable.Cell>
-      </DataTable.Row>
+      <TouchableOpacity style={styles.videoThumbnail} key={index} onPress={() => window.open(vidUrl, '_blank')}>
+        <Image
+          resizeMode="cover"
+          style={styles.cover}
+          source={{ uri: item.snippet.thumbnails.medium.url }}
+        />
+        <View style={styles.videoLabel}>
+          <Text style={styles.videoTitle} numberOfLines={1} ellipsizeMode='tail'>{item.snippet.title}</Text>
+          <Text style={styles.videoChannel} numberOfLines={1} ellipsizeMode='tail'>{item.snippet.channelTitle}</Text>
+        </View>
+        <TouchableOpacity style={styles.btnDel} onPress={() => { initDelete(index) }}>
+          <FontAwesome5
+            name="trash"
+            size={18}
+            color="orangered"
+          />
+        </TouchableOpacity>
+      </TouchableOpacity>
     )
   });
-
-  function TableTitle({ title, indexCol }) {
-
-    if (indexCol) {
-      return (
-        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>#</Text></DataTable.Title>
-      );
-    } else {
-      return (
-        <DataTable.Title><Text style={styles.tableTitle}>{title}</Text></DataTable.Title>
-      );
-    }
-  }
 
   return (
     <View style={{ flex: 1, padding: 24 }}>
@@ -187,14 +176,7 @@ export default function VideoFetchScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <ScrollView style={{ marginTop: 24 }}>
-        <DataTable  >
-          <DataTable.Header style={styles.tableHeader}>
-            <TableTitle style={styles.tableMargin} indexCol />
-            <TableTitle style={styles.tableMargin} title="Title" />
-            <TableTitle style={styles.tableMargin} title="Channel" />
-            <TableTitle style={styles.tableMargin} title="URL" />
-            <TableTitle style={styles.tableMargin} title="Action" />
-          </DataTable.Header>
+        <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%", justifyContent: 'center' }}>
           {
             (
               isFetched
@@ -203,7 +185,7 @@ export default function VideoFetchScreen({ navigation }) {
             )
 
           }
-        </DataTable>
+        </View>
       </ScrollView>
 
     </View>
@@ -278,4 +260,48 @@ const styles = StyleSheet.create({
     color: "#000",
     maxWidth: 360,
   },
+  cover: {
+    flex: 1,
+    borderRadius: 12
+  },
+  videoThumbnail: {
+    margin: 6,
+    width: 270,
+    height: 180,
+    // flexDirection: "column",
+    // justifyContent: 'center'
+  },
+  videoLabel: {
+    position: "absolute",
+    width: "100%",
+    padding: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderBottomStartRadius: 12,
+    borderBottomEndRadius: 12,
+    bottom: 0,
+  },
+  videoTitle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16
+  },
+  videoChannel: {
+    color: "lightgray",
+    fontWeight: "400",
+    fontSize: 12
+  },
+  btnDel: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 30,
+    height: 30,
+    // borderRadius: 42,
+    // borderWidth: 2,
+    // borderColor:"orangered",
+    // backgroundColor:"white",
+    margin: 6,
+    padding: 6,
+    position: "absolute",
+    end: 0,
+  }
 });

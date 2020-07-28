@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button, TouchableOpacity, Image } from 'react-native';
 import { Api, ApiYoutube } from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
@@ -54,40 +54,29 @@ export default function VideoScreen({ navigation }) {
 
   const mapData = data.map((item, index) => {
     return (
-      <DataTable.Row key={index}>
-        <DataTable.Cell style={{ maxWidth: 30 }}>{(index + 1)}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.TITLE}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>{item.CHANNEL}</DataTable.Cell>
-        <DataTable.Cell style={styles.tableMargin}>
-          <FontAwesome5 name="play" size={12} color="blue" />
-          <Link style={styles.link} target="_blank" to={item.URL}>
-            Open on Youtube
-          </Link>
-        </DataTable.Cell>
-        <DataTable.Cell >
-          <View style={styles.btnAction}>
-            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_VIDEO) }} />
-          </View>
-        </DataTable.Cell>
-      </DataTable.Row>
+      <TouchableOpacity style={styles.videoThumbnail} key={index} onPress={() => window.open(item.URL, '_blank')}>
+        <Image
+          resizeMode="cover"
+          style={styles.cover}
+          source={{ uri: item.THUMBNAIL }}
+        />
+        <View style={styles.videoLabel}>
+          <Text style={styles.videoTitle} numberOfLines={1} ellipsizeMode='tail'>{item.TITLE}</Text>
+          <Text style={styles.videoChannel} numberOfLines={1} ellipsizeMode='tail'>{item.CHANNEL}</Text>
+        </View>
+        <TouchableOpacity style={styles.btnDel} onPress={() => { initDelete(item.ID_VIDEO) }}>
+          <FontAwesome5
+            name="trash"
+            size={18}
+            color="orangered"
+          />
+        </TouchableOpacity>
+      </TouchableOpacity>
     )
   });
 
-  function TableTitle({ title, indexCol }) {
-
-    if (indexCol) {
-      return (
-        <DataTable.Title style={{ maxWidth: 30 }}><Text style={styles.tableTitle}>#</Text></DataTable.Title>
-      );
-    } else {
-      return (
-        <DataTable.Title><Text style={styles.tableTitle}>{title}</Text></DataTable.Title>
-      );
-    }
-  }
-
   return (
-    <View style={{ flex: 1, padding: 24 }}>
+    <View style={{ flex: 1, padding: 24, }}>
       <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
         <TouchableOpacity
           style={styles.btnAdd}
@@ -100,31 +89,15 @@ export default function VideoScreen({ navigation }) {
           <Text style={styles.txtAdd}>Fetch from Youtube</Text>
         </TouchableOpacity>
       </View>
+
       {isLoading ? <ActivityIndicator /> : (
         <ScrollView style={{ marginTop: 24 }}>
-          <DataTable  >
-            <DataTable.Header style={styles.tableHeader}>
-              <TableTitle style={styles.tableMargin} indexCol />
-              <TableTitle style={styles.tableMargin} title="Title" />
-              <TableTitle style={styles.tableMargin} title="Channel" />
-              <TableTitle style={styles.tableMargin} title="URL" />
-              <TableTitle style={styles.tableMargin} title="Action" />
-            </DataTable.Header>
-
+          <View style={{ flexDirection: "row", flexWrap: "wrap", width: "100%", justifyContent: 'center' }}>
             {(data != null ? mapData : <View />)}
-
-            <DataTable.Pagination
-              page={1}
-              numberOfPages={3}
-              onPageChange={page => {
-                console.log(page);
-              }}
-              label="1-2 of 6"
-            />
-          </DataTable>
+          </View>
         </ScrollView>
-
-      )}
+      )
+      }
     </View>
   );
 };
@@ -133,7 +106,7 @@ const styles = StyleSheet.create({
   message: {
     maxWidth: 360,
     marginTop: 24,
-    color: "tomato",
+    color: "orangered",
     // alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -167,9 +140,52 @@ const styles = StyleSheet.create({
     borderBottomColor: "blue",
     borderBottomWidth: 1
   },
-  
   txtAdd: {
     color: "white",
     fontWeight: "bold",
+  },
+  cover: {
+    flex: 1,
+    borderRadius: 12
+  },
+  videoThumbnail: {
+    margin: 6,
+    width: 270,
+    height: 180,
+    // flexDirection: "column",
+    // justifyContent: 'center'
+  },
+  videoLabel: {
+    position: "absolute",
+    width: "100%",
+    padding: 12,
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    borderBottomStartRadius: 12,
+    borderBottomEndRadius: 12,
+    bottom: 0,
+  },
+  videoTitle: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16
+  },
+  videoChannel: {
+    color: "lightgray",
+    fontWeight: "400",
+    fontSize: 12
+  },
+  btnDel: {
+    justifyContent:'center',
+    alignItems:'center',
+    width:30,
+    height:30,
+    // borderRadius: 42,
+    // borderWidth: 2,
+    // borderColor:"orangered",
+    // backgroundColor:"white",
+    margin: 6,
+    padding: 6,
+    position: "absolute",
+    end: 0,
   }
 });

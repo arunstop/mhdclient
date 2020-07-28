@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, Text, View, StyleSheet, TextInput } from '
 import { ScrollView } from 'react-native-gesture-handler';
 import ModButton from '../components/ModButton';
 import ModTextInput from '../components/ModTextInput';
-import { Api, ApiYoutube1, ApiKeyYT } from '../tools';
+import { Api, ApiYoutube, ApiKeyYT } from '../tools';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
@@ -52,7 +52,7 @@ export default function VideoAddScreen({ navigation }) {
 
     var id = url.split('=')[1];
     
-    await ApiYoutube1.get('videos', {
+    await ApiYoutube.get('videos', {
       params: {
         key: ApiKeyYT,
         part: 'snippet',
