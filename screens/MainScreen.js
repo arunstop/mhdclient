@@ -33,6 +33,7 @@ import ArticleEditScreen from './ArticleEditScreen';
 import VideoScreen from './VideoScreen';
 import VideoAddScreen from './VideoAddScreen';
 import VideoFetchScreen from './VideoFetchScreen';
+import QMapAddScreen from './QMapAddScreen';
 
 
 
@@ -151,7 +152,7 @@ function DrawerStack({ navigation }) {
         }}
       />
       <Drawer.Screen
-        name="Map"
+        name="QMap"
         component={QMapScreen}
         options={{
           title: "Map Questionnaire",
@@ -195,7 +196,7 @@ function MainScreen({ route, navigation }) {
           <Stack.Screen name="DisorderEdit" component={DisorderEditScreen} options={{ title: "Edit Disorder" }} />
           <Stack.Screen name="ExpertAdd" component={ExpertAddScreen} options={{ title: "Add Expert" }} />
           <Stack.Screen name="ExpertEdit" component={ExpertEditScreen} options={{ title: "Edit Expert" }} />
-          <Stack.Screen name="MapAdd" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />
+          <Stack.Screen name="QMapAdd" component={QMapAddScreen} options={{ title: "Edit Symptom" }} />
           <Stack.Screen name="RuleAdd" component={RuleAddScreen} options={{ title: "Add Rule" }} />
           <Stack.Screen name="SymptomAdd" component={SymptomAddScreen} options={{ title: "Add Symptom" }} />
           <Stack.Screen name="SymptomEdit" component={SymptomEditScreen} options={{ title: "Edit Symptom" }} />

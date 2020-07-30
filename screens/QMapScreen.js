@@ -42,7 +42,7 @@ export default function QMapScreen({ navigation }) {
     body.set('id_gejala', id);
 
     await Api.post(
-      'symptom/delete', body)
+      'symptom/deleteMap', body)
       .then((response) => {
         console.log(response.data);
         if (!response.data.ok) {
@@ -70,6 +70,11 @@ export default function QMapScreen({ navigation }) {
         </DataTable.Cell>
         <DataTable.Cell style={{ maxWidth: 30 }}>{item.YES}</DataTable.Cell>
         <DataTable.Cell style={{ maxWidth: 30 }}>{item.NO}</DataTable.Cell>
+        <DataTable.Cell >
+          <View style={styles.btnAction}>
+            <Button title="Delete" color="tomato" onPress={() => { initDelete(item.ID_GEJALA) }} />
+          </View>
+        </DataTable.Cell>
       </DataTable.Row>
     )
   });
@@ -107,7 +112,7 @@ export default function QMapScreen({ navigation }) {
         <TouchableOpacity
           style={styles.btnAdd}
           onPress={() => { navigation.navigate('QMapAdd') }}>
-          <Text style={styles.txtAdd}>Add Data</Text>
+          <Text style={styles.txtAdd}>Map Question</Text>
         </TouchableOpacity>
       </View>
       {isLoading ? <ActivityIndicator /> : (
@@ -119,6 +124,7 @@ export default function QMapScreen({ navigation }) {
               <TableTitle style={styles.tableMargin} title="Disorder List" />
               <TableTitle style={styles.tableMargin} indexCol title="Yes" />
               <TableTitle style={styles.tableMargin} indexCol title="No" />
+              <TableTitle style={styles.tableMargin} title="Action" />
             </DataTable.Header>
 
             {mapData}
