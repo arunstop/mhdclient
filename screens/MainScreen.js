@@ -34,6 +34,7 @@ import VideoScreen from './VideoScreen';
 import VideoAddScreen from './VideoAddScreen';
 import VideoFetchScreen from './VideoFetchScreen';
 import QMapAddScreen from './QMapAddScreen';
+import UserScreen from './UserScreen';
 
 
 
@@ -176,6 +177,15 @@ function DrawerStack({ navigation }) {
           title: "Featured Video",
           drawerIcon: (props) => <FontAwesome5 name="youtube" style={styles.drawerIcon} {...props} />,
           drawerLabel: "Video"
+        }}
+      />
+      <Drawer.Screen
+        name="User"
+        component={UserScreen}
+        options={{
+          title: "User",
+          drawerIcon: (props) => <FontAwesome5 name="users" style={styles.drawerIcon} {...props} />,
+          drawerLabel: "User"
         }}
       />
     </Drawer.Navigator>

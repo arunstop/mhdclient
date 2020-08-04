@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button,Image,TouchableOpacity } from 'react-native';
+import { ActivityIndicator, FlatList, ScrollView, Text, View, StyleSheet, Button, Image, TouchableOpacity, TextInput } from 'react-native';
 import Api from '../tools';
 import ModTextInput from '../components/ModTextInput';
 import ModButton from '../components/ModButton';
@@ -12,6 +12,9 @@ import { MaterialCommunityIcons, FontAwesome5, Fontisto } from '@expo/vector-ico
 export default function ArticleScreen({ navigation }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [initData, setInitData] = useState([]);
+  // const [keyword, setKeyword] = useState('');
+  var keyword = '';
 
   useFocusEffect(//refresh when focused
     React.useCallback(() => {
@@ -24,6 +27,7 @@ export default function ArticleScreen({ navigation }) {
       .then((response) => {
         console.log(response.data.data);
         setData(response.data.data);
+        setInitData(response.data.data);
       })
       .catch(error => console.error(error))
       .finally(() => setLoading(false));
@@ -58,6 +62,20 @@ export default function ArticleScreen({ navigation }) {
 
   }
 
+
+  function searchData() {
+    alert(keyword);
+    if (keyword === "") {
+      return (setData(initData));
+    }
+    const result = data.filter(word =>
+      word.JUDUL.toLowerCase().includes(keyword));
+
+    console.log(result);
+    return (setData(result));
+  }
+
+
   const mapData = data.map((item, index) => {
     return (
       <DataTable.Row key={index}>
@@ -65,10 +83,11 @@ export default function ArticleScreen({ navigation }) {
         <DataTable.Cell style={styles.tableMargin}>{item.JUDUL}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>{item.ISI}</DataTable.Cell>
         <DataTable.Cell style={styles.tableMargin}>
-        <FontAwesome5 name="eye" size={12} color="blue" />
-        <Link style={styles.link} target="_blank" to={item.IMG_URL}>
+          <FontAwesome5 name="eye" size={12} color="blue" />
+          <Link style={styles.link} target="_blank" to={item.IMG_URL}>
             Thumbnail
-          </Link></DataTable.Cell>
+          </Link>
+        </DataTable.Cell>
         <DataTable.Cell >
           <View style={styles.btnAction}>
             <Button title="Edit" color="dodgerblue" onPress={() => { initEdit(index) }} />
@@ -101,6 +120,12 @@ export default function ArticleScreen({ navigation }) {
           style={styles.btnAdd}
           onPress={() => { navigation.navigate('ArticleAdd') }}>
           <Text style={styles.txtAdd}>Add Data</Text>
+        </TouchableOpacity>
+        <TextInput style={styles.inputText} width="100%" placeholder="Search...." onChangeText={(val) => { keyword = val }} />
+        <TouchableOpacity
+          style={styles.btnAdd}
+          onPress={() => { searchData() }}>
+          <Text style={styles.txtAdd}>Search</Text>
         </TouchableOpacity>
       </View>
       {isLoading ? <ActivityIndicator /> : (
@@ -147,6 +172,22 @@ const styles = StyleSheet.create({
     backgroundColor: "dodgerblue",
     borderRadius: 6,
   },
+  inputText: {
+    width: "100%",
+    backgroundColor: "aliceblue",
+    borderRadius: 4,
+    height: 48,
+    margin: 12,
+    borderStyle: "solid",
+    borderWidth: 2,
+    borderColor: "lightsteelblue",
+    justifyContent: "center",
+    padding: 12,
+    paddingHorizontal: 18,
+    fontWeight: "bold",
+    color: "#000",
+    maxWidth: 360,
+  },
   txtAdd: {
     color: "white",
     fontWeight: "bold",
@@ -165,7 +206,7 @@ const styles = StyleSheet.create({
     marginEnd: 12,
   },
   link: {
-    marginStart:6,
+    marginStart: 6,
     color: "blue",
     borderBottomColor: "blue",
     borderBottomWidth: 1
